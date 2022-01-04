@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            background-color: #de7119;
+            margin-left: 20px;
+        }
+    </style>
+    <title>Meetings</title>
+</head>
+<body>
+<div style="height: 50px"></div>
+<div class="container px-4">
+    <h1> Edit meeting</h1> <span style="color: #0b14d2" th:text="${error}"></span></h1>
+    <div class="container-fluid row">
+        <form name="meetingForm" method="post" th:action="@{'/meeting/' + ${meeting.id} + '/update'}">
+            <label>Date:
+                <input name="date" placeholder="date" type="date" th:value=${meeting.date.toString}>
+            </label>
+            <h4>Begin of the meeting: <span th:text="${meeting.getTimeStartToString()}"></span></h4>
+            <select name="hoursStart">
+                <option selected><span th:text="${meeting.getTimeForEditPage().get(0)}"></span></option>
+            </select> hours
+            <select name="minutesStart">
+                <option selected><span th:text="${meeting.getTimeForEditPage().get(1)}"></span></option>
+            </select> minutes
+            <br><br>
+
+            <h4>Duration of meeting: <span th:text="${meeting.getLengthToString()}"></span></h4>
+            <select name="hoursLength">
+                <option selected><span th:text="${meeting.getTimeForEditPage().get(2)}"></span></option>
+            </select> hours
+            <select name="minutesLength">
+                <option selected><span th:text="${meeting.getTimeForEditPage().get(3)}"></span></option>
+            </select> minutes
+            <br><small>The meeting should last at least 30 minutes</small>
+            <br><br>
+            <div>
+                <label>Details: </label>
+                <textarea maxlength="255" rows="4" style="width: 100%" name="details"
+                          th:text=${meeting.details}></textarea>
+                <br>
+            </div>
+            <button type="submit" value="save meeting" class="btn btn-secondary">Save</button>
+            <a href="/meetingCalendar" class="btn btn-secondary" role="button">Back</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+<script th:inline="javascript">
+    const HOURS_IN_DAY = 24;
+    const MINUTES_IN_HOUR = 60;
+
+    var hoursSelectStart = meetingForm.hoursStart,
+        minutesSelectStart = meetingForm.minutesStart,
+        hoursSelectLength = meetingForm.hoursLength,
+        minutesSelectLength = meetingForm.minutesLength;
+
+
+    for (let i = 0; i < HOURS_IN_DAY; i++) {
+        hoursSelectStart.add(new Option(i, i));
+        hoursSelectLength.add(new Option(i, i));
+    }
+
+    for (let i = 0; i < MINUTES_IN_HOUR; i++) {
+        minutesSelectStart.add(new Option(i, i));
+        minutesSelectLength.add(new Option(i, i));
+    }
+
+    hoursSelectStart.selectedIndex = /*[[${startHours}]]*/ "12";
+    minutesSelectStart.selectedIndex = /*[[${startMinutes}]]*/ "12";
+    hoursSelectLength.selectedIndex = /*[[${lengthHours}]]*/ "0";
+    minutesSelectLength.selectedIndex = /*[[${lengthMinutes}]]*/ "30";
+
+</script>

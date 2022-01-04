@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MeetRoom</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+
+<div class="row container-fluid">
+    <div class="col-1"></div>
+    <div class="col-5">
+        <h2>MeetRoom
+            <a th:href="'meetingCalendar?date='+${week.getDatePrevWeek()}" class="btn btn-secondary" role="button"><-Last
+                week</a>
+            <a th:href="'meetingCalendar?date='+${week.getDateNextWeek()}" class="btn btn-secondary" role="button">Next
+                week -></a>
+        </h2>
+    </div>
+    <div class="col-5 d-flex flex-column justify-content-center">
+        <h4 class="text-right"><span th:text="${#httpServletRequest.remoteUser}"></span></h4>
+        <form class="text-right" th:action="@{/logout}" method="post">
+            <button type="submit" value="Logout" class="btn btn-secondary">Logout</button>
+        </form>
+    </div>
+    <div class="col-1">
+        <img th:src="${avatar}" alt="" width="70" height="70"/>
+    </div>
+</div>
+
+<div style="height: 25px"></div>
+<div class="row container-fluid">
+    <div class="col-1 container"></div>
+    <div class="col bottomline">
+        <div class="row">
+            <div class="col" th:each="day : ${week.getArrayListDays()}">
+                <a title="Plan to meet"
+                   th:href="'newMeeting?date='+${day.getLocalDate()}">
+                    <div class="text-white text-center" th:text="${day.getDateStringForMeetingCalendar('ru')}"></div>
+                    <div class="text-white text-center" th:text="${day.getWeekDayStringForMeetingCalendar('en')}"></div>
+                </a>
+            </div>
+        </div>
+
+        <div style="height: 10px"></div>
+    </div>
+</div>
+
+<div class="row container-fluid">
+    <div class="col-1" id="hours_column"></div>
+    <div class="col-11">
+        <div style="height: 15px"></div>
+        <div class="row leftline" style="height: 720px">
+            <div class="col rightline" th:each="day : ${week.getArrayListDays()}">
+
+                <div th:each="meeting : ${day.getListMeeting()}"
+                     class="meetFrame link container" style="margin-top: -10px"
+                     th:style="'top: ' +
+                  @{${meeting.getStart()*0.5}} + 'px; height: ' +
+                  @{${meeting.getLength()*0.5}} + 'px;'">
+                    <a th:title="${meeting.getDetails()} + '     Details...'"
+                       th:href="'meetingDetails?id='+${meeting.getId()}+'&date='+
+                   ${day.getDateStringForMeetingCalendar('ru')}+'&user='+${meeting.getUser.getFirstname}+' '+
+                                                                            ${meeting.getUser.getLastname}">
+                        <small>
+                            <b><p class="thinLine" th:text="${meeting.getDetails()}"></p></b>
+                            <p class="thinLine"
+                               th:text="${meeting.getUser.getFirstname}+' '+${meeting.getUser.getLastname}"></p>
+                        </small>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height: 30px"></div>
+
+<div class="container-fluid" style="text-align: right;">
+    <a href="/panel" class="btn btn-secondary" role="button"><- Back</a>
+</div>
+</body>
+</html>
+
+<script>
+    const HOURS_IN_DAY = 24;
+
+    /** Generate 24 hours time column. */
+    for (let i = 0; i <= HOURS_IN_DAY; i++) {
+        document.getElementById('hours_column').innerHTML +=
+            "<div style=\"height: 30px;\">" +
+            "<p class=\"text-right\">" + i + ":00 </p></div>";
+    }
+</script>

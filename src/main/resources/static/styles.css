@@ -1,0 +1,44 @@
+body {
+    padding: 30px;
+    background-color: #de7119;
+}
+
+.rightline {
+    border-right-color: #1f1f1f;
+    border-right-style: solid;
+    border-right-width: 3px;
+}
+
+.leftline {
+    border-left-color: #1f1f1f;
+    border-left-style: solid;
+    border-left-width: 3px;
+}
+
+.bottomline {
+    border-bottom-color: #1f1f1f;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}
+
+.meetFrame {
+    border-bottom-color: #943d4b;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    position: absolute;
+    background: #fff;
+    width: 85%;
+    overflow: hidden;
+}
+
+.link a {
+    display: block;
+    height: 100%;
+    color: #000;
+}
+
+.thinLine {
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+}

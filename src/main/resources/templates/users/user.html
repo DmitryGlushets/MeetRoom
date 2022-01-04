@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>user</title>
+    <style>
+        body {
+            background-color: #de7119;
+            margin-left: 20px;
+        }
+
+        p {
+            font-size: 15pt;
+        }
+    </style>
+</head>
+<body>
+<h2> Edit <span th:text="${user.username}"></span></h2>
+<br>
+<form method="post" th:action="@{'/user/' + ${user.id} + '/update'}">
+    <label>
+        Login: <input name="username" th:value="${user.username}" required>
+    </label>
+    <label>
+        Firstname: <input name="firstname" th:value="${user.firstname}" required>
+    </label>
+    <label>
+        Lastname: <input name="lastname" th:value="${user.lastname}" required>
+    </label>
+    <br>
+    <label>
+        password: <input name="password" required>
+    </label>
+    <button type="submit" value="value" class="btn btn-secondary">Save</button>
+</form>
+<br>
+<a href="javascript:history.back()" class="btn btn-secondary" role="button">Back</a>
+</body>
+</html>
